@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios"
+import React, { useEffect, useState } from "react"
+import "./App.css"
 
-function App() {
+const App = () => {
+  const [message, setMessage] = useState("")
+
+  const fetchHello = async () => {
+    const { data } = await axios.post("/.netlify/functions/hello", {
+      name: "codingwithdidem",
+    })
+    setMessage(data.message)
+  }
+
+  useEffect(() => {
+    fetchHello()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className='App'>
+      <header className='App-header'>
+        <p>{message}</p>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
